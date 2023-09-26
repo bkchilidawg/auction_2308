@@ -11,7 +11,7 @@ class Item
     if @bidding_closed == false
     @bids[attendee] = bid
     elsif @bidding_closed == true
-      pp "I'm sorry, bidding is closed for this item"
+      "I'm sorry, bidding is closed for this item"
     end
   end
 

@@ -1,7 +1,9 @@
+require 'date'
 class Auction
-  attr_reader :items 
-  def initialize
+  attr_reader :items, :date
+  def initialize(date = Date.today.strftime("%d/%m/%Y") )
     @items = []
+    @date = date 
   end
 
   def add_item(item)
@@ -13,7 +15,7 @@ class Auction
     @items.each do |item|
       item_names << item.name
     end
-    
+
     item_names
   end
 
@@ -48,5 +50,28 @@ class Auction
     bidder_info_hash
   end
 
+  def close_auction
+    item_purchasers = {}
+    items_won = @items.sort_by { |item| item.current_high_bid }
+
+    items_won.each do |item|
+      highest_bidder = item.bids.keys.first
+      
+  
+      until highest_bidder.nil? || highest_bidder.budget >= item.current_high_bid
+        item.bids.delete(highest_bidder)
+        highest_bidder = item.bids.keys.first
+      end
+
+      if highest_bidder && highest_bidder.budget >= item.current_high_bid
+        item_purchasers[item] = highest_bidder
+        highest_bidder.budget -= item.current_high_bid
+      else
+        item_purchasers[item] = 'Not Sold'
+      end
+    end
+
+    item_purchasers
+  end
 
 end

@@ -15,16 +15,4 @@ RSpec.describe Attendee do
       expect(@attendee.budget).to eq(50) 
     end
   end
-
-  describe '#' do
-    xit '' do
-     expect().to
-    end
-  end
-
-  describe '#' do
-    xit '' do
-      expect().to
-    end
-  end
 end 

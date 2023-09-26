@@ -1,5 +1,5 @@
 class Attendee
-  attr_reader :name, :budget
+  attr_accessor :name, :budget
   def initialize(details)
     @name = details[:name]
     @budget = budget_to_i(details[:budget])
@@ -8,4 +8,5 @@ class Attendee
   def budget_to_i(budget_str)
     budget_str.gsub("$", " ").to_i
   end
+  
 end

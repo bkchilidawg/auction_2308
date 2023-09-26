@@ -112,4 +112,63 @@ RSpec.describe Auction do
       )
     end
   end
+
+  describe '#date' do
+    it 'returns the of the auction' do
+      
+      expect(@auction.date).to eq '26/09/2023'  
+      
+      @auction = Auction.new('01/01/2022')
+
+      expect(@auction.date).to eq '01/01/2022'  
+
+      @auction = Auction.new('27/09/2023')
+
+      expect(@auction.date).to eq '27/09/2023'  
+    end
+  end
+
+  describe '#close_auction' do
+    it 'closes the auction and returns a hash of item purchasers' do
+      @auction.add_item(@item1)
+      @auction.add_item(@item2)
+      @auction.add_item(@item3)
+      @auction.add_item(@item4)
+      @auction.add_item(@item5)
+
+      @item1.add_bid(@attendee1, 22)
+      @item4.add_bid(@attendee3, 50)
+      @item3.add_bid(@attendee2, 15)
+      @item2.add_bid(@attendee2, 30)
+
+      expect(@auction.close_auction).to eq({
+        @item4 => @attendee3,
+        @item2 => @attendee2,
+        @item1 => @attendee1,
+        @item3 => @attendee2,
+        @item5 => 'Not Sold'
+      })
+    end
+
+    it 'handles cases where bidders have insufficient budgets' do
+      @auction.add_item(@item1)
+      @auction.add_item(@item2)
+      @auction.add_item(@item3)
+      @auction.add_item(@item4)
+      @auction.add_item(@item5)
+
+      @item1.add_bid(@attendee1, 22)
+      @item4.add_bid(@attendee3, 50)
+      @item3.add_bid(@attendee2, 15)
+      @item2.add_bid(@attendee2, 30)
+      
+      @item5.add_bid(@attendee3, 5)
+
+      expect(@auction.close_auction[@item4]).to eq(@attendee3)
+      expect(@auction.close_auction[@item2]).to eq(@attendee1)
+      expect(@auction.close_auction[@item1]).to eq(@attendee1)
+      expect(@auction.close_auction[@item3]).to eq(@attendee2)
+      expect(@auction.close_auction[@item5]).to eq(@attendee2) 
+    end
+  end
 end 
