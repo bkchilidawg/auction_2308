@@ -112,5 +112,4 @@ RSpec.describe Auction do
       )
     end
   end
-
 end 

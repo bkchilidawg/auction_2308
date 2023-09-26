@@ -13,6 +13,7 @@ class Auction
     @items.each do |item|
       item_names << item.name
     end
+    
     item_names
   end
 
@@ -31,6 +32,7 @@ class Auction
         bidder_names << bidder.name unless bidder_names.include?(bidder.name)
       end
     end
+
       bidder_names
   end
 
@@ -42,6 +44,7 @@ class Auction
         bidder_info_hash[bidder][:items] << item
       end
     end
+
     bidder_info_hash
   end
 
